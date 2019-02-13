@@ -1,4 +1,4 @@
-#Mern-Social Project
+# Mern-Social Project
 
 The goal of this project is show up a social media applicaction with some feature using React with base for the FrontEnd.
 
