@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import FileUpload from "@material-ui/icons/CloudUpload"
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -46,6 +47,7 @@ class EditProfile extends Component {
       email: '',
       password: '',
       about:'',
+      photo: '',
       redirectToProfile: false,
       error: ''
     }
@@ -54,6 +56,7 @@ class EditProfile extends Component {
 
   componentDidMount = () => {
     const jwt = auth.isAuthenticated()
+    this.userData = new FormData()
     read({
       userId: this.match.params.userId
     }, {t: jwt.token}).then((data) => {
@@ -63,6 +66,7 @@ class EditProfile extends Component {
         this.setState({name: data.name, email: data.email, about: data.about})
       }
     })
+    this.userData = new FormData()
   }
   clickSubmit = () => {
     const jwt = auth.isAuthenticated()
@@ -85,7 +89,11 @@ class EditProfile extends Component {
     })
   }
   handleChange = name => event => {
-    this.setState({[name]: event.target.value})
+    const value = name === 'photo'
+    ? event.target.files[0]
+    : event.target.value
+    this.userData.set(name, value)
+    this.setState({[name]: value})
   }
   render() {
     const {classes} = this.props
@@ -98,6 +106,19 @@ class EditProfile extends Component {
           <Typography type="headline" component="h2" className={classes.title}>
             Edit Profile
           </Typography>
+
+          <input accept="image/*" type="file" onChange={this.handleChange('photo')} style={{display:'none'}} id="icon-button-file" />
+          <label htmlFor="icon-button-file">
+            <Button variant="contained" color="default" component="span">
+              Upload <FileUpload/>
+            </Button>
+          </label>
+          <br/>
+          <span className={classes.filename}>
+              {this.state.photo ? this.state.photo.name : ''}
+          </span>
+          <br/>
+
           <TextField id="name" label="Name" className={classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/><br/>
           <TextField id="multiline-flexible" label="About" multiline rows="2" className={classes.textField} value={this.state.about} onChange={this.handleChange('about')} /><br/>
           <TextField id="email" type="email" label="Email" className={classes.textField} value={this.state.email} onChange={this.handleChange('email')} margin="normal"/><br/>
