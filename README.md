@@ -46,7 +46,6 @@ Make sure you have Git and Node installed, and Mongod, before you proceed. You m
 
 4.  **Open your browser at http://localhost:3000/**
 
-
     After put the url on the browser the application will appear
 
 ### Resources and Documentation:
