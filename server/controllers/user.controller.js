@@ -105,5 +105,63 @@ const defaultPhoto = (req, res) => {
   return res.sendFile(process.cwd()+profileImage)
 }
 
+const addFollowing = (req, res, next) => {
+  User.findByIdAndUpdate(req.body.userId, {$push: {following: req.body.followId}},(err, result) =>{
+    if(err){
+      return res.status(400).json({error: errorHandler.getUniqueErrorMessage(err)})
+    }
+    next()
+  })
+}
 
-export default { create, userByID, read, list, remove, update }
+const addFollower = (req, res) =>{
+  User.findByIdAndUpdate(req.body.userId, {$push: {followers: req.body.userId}},{new: true})
+  .populate('following','_id name')
+  .populate('followers','_id name')
+  .exec((err, result) =>{
+    return res.status(400).json({
+      erro: errorHandler.getUniqueErrorMessage(err)
+    })
+    result.hashed_password = undefined
+    result.salt = undefined
+    res.json(result)
+  })
+}
+
+
+const removeFollowing = (req, res, next) => {
+  User.findByIdAndUpdate(req.body.userId, {$pull: {following: req.body.followId}},(err, result) =>{
+    if(err){
+      return res.status(400).json({error: errorHandler.getUniqueErrorMessage(err)})
+    }
+    next()
+  })
+}
+
+const removeFollower = (req, res) =>{
+  User.findByIdAndUpdate(req.body.userId, {$pull: {followers: req.body.userId}},{new: true})
+  .populate('following','_id name')
+  .populate('followers','_id name')
+  .exec((err, result) =>{
+    return res.status(400).json({
+      erro: errorHandler.getUniqueErrorMessage(err)
+    })
+    result.hashed_password = undefined
+    result.salt = undefined
+    res.json(result)
+  })
+}
+
+
+export default { create,
+   userByID,
+   read,
+   list,
+   remove,
+   update ,
+   photo,
+   defaultPhoto,
+   addFollowing,
+   addFollower,
+   removeFollowing,
+   removeFollower }
