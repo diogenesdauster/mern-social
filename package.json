@@ -57,7 +57,7 @@
     "formidable": "^1.2.1",
     "helmet": "^3.15.0",
     "jsonwebtoken": "^8.4.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "mongoose": "^5.4.9",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
