@@ -40,7 +40,7 @@
     "file-loader": "^3.0.1",
     "nodemon": "^1.18.9",
     "webpack": "^4.29.0",
-    "webpack-cli": "^3.2.1",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.5.1",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-node-externals": "^1.7.2"
